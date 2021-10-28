@@ -1,0 +1,99 @@
+name: Build
+
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: none
+      checks: none
+      contents: none
+      deployments: none
+      issues: none
+      packages: write
+      pull-requests: none
+      repository-projects: none
+      security-events: none
+      statuses: none
+      id-token: none
+
+    steps:
+      - uses: actions/checkout@v2.3.5
+
+      - name: Login to dockerhub
+        uses: docker/login-action@v1.10.0
+        with:
+          username: chrisns
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Login to GitHub
+        uses: docker/login-action@v1.10.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - id: docker_meta
+        uses: docker/metadata-action@v3.6.0
+        with:
+          images: |
+            ${{ github.repository }}
+            ghcr.io/${{ github.repository }}
+          flavor: |
+            latest=true
+          tags: |
+            type=sha,format=long
+            type=edge,branch=$repo.default_branch
+
+      - name: build+push
+        uses: docker/build-push-action@v2.7.0
+        with:
+          context: .
+          push: ${{ github.ref == 'refs/heads/main' }}
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+
+    outputs:
+      tags: ${{ steps.docker_meta.outputs.tags }}
+
+  sign:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      actions: none
+      checks: none
+      contents: none
+      deployments: none
+      issues: none
+      packages: write
+      pull-requests: none
+      repository-projects: none
+      security-events: none
+      statuses: none
+      id-token: write
+
+    steps:
+      - name: Login to dockerhub
+        uses: docker/login-action@v1.10.0
+        with:
+          username: chrisns
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Login to GitHub
+        uses: docker/login-action@v1.10.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: sigstore/cosign-installer@v1.2.1
+
+      - name: Sign the images
+        run: cosign sign ${TAGS}
+        env:
+          TAGS: ${{needs.build.outputs.tags}}
+          COSIGN_EXPERIMENTAL: 1

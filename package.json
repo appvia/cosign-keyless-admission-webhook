@@ -1,0 +1,25 @@
+{
+  "name": "cosign-keyless-github-admission-webhook",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chrisns/cosign-keyless-github-admission-webhook.git"
+  },
+  "author": "Chris Nesbitt-Smith",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chrisns/cosign-keyless-github-admission-webhook/issues"
+  },
+  "homepage": "https://github.com/chrisns/cosign-keyless-github-admission-webhook#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "localtunnel": "^2.0.2"
+  }
+}
