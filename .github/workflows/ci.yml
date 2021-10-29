@@ -73,7 +73,8 @@ jobs:
           kubectl apply -f https://github.com/jetstack/cert-manager/releases/latest/download/cert-manager.yaml
           kubectl wait --for=condition=available --timeout=600s  -n cert-manager \
             deployment/cert-manager \
-            deployment/cert-manager-cainjector
+            deployment/cert-manager-cainjector \
+            deployment/cert-manager-webhook
 
       - name: Install our validating webhook
         run: |
@@ -87,8 +88,6 @@ jobs:
       - name: Deploy known bad pod
         run: |
           ! kubectl apply -f test/BadPod.yaml
-
-
 
     outputs:
       tags: ${{ steps.docker_meta.outputs.tags }}
