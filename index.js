@@ -17,16 +17,21 @@ app.post('/', async (req, res) => {
       const containerName = k.split("/")[1]
       const images = req.body.request.object.spec.containers.filter(container => container.name == containerName).map(container => container.image)
       await images.forEach(async image => {
-        const response = child_process.spawnSync("cosign", ["verify", "-output", "json", image], { env: { COSIGN_EXPERIMENTAL: 1, "PATH": "/usr/local/bin" } })
+        const response = child_process.spawnSync("cosign", ["verify", "-output", "json", image], {
+          env: {
+            COSIGN_EXPERIMENTAL: "1",
+            PATH: "/usr/local/bin"
+          }
+        })
         if (response.status !== 0) {
-          return errors.push(response.stderr.toString())
+          return errors.push(response.stderr)
         }
         var cosign
         try {
           cosign = JSON.parse(response.stdout.toString())
         }
         catch (_) {
-          return errors.push("Unable to parse response from cosign for $IOMAGE")
+          return errors.push(`Unable to parse response from cosign for ${image}`)
         }
         const signs = cosign.filter(sig => sig.critical.type === "cosign container image signature" && sig.optional.Subject === subject)
         if (signs.length === 0) {
