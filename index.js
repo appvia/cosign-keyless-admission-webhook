@@ -5,6 +5,8 @@ const child_process = require('child_process')
 
 app.use(express.json())
 
+app.get('/', (req, res) => res.send('Listening for POSTs'))
+
 app.post('/', async (req, res) => {
   const errors = []
   await Object.keys(req.body.request.object.metadata.annotations)
