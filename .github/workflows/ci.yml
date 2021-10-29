@@ -91,10 +91,11 @@ jobs:
       - name: Deploy known bad pod
         run: |
           ! kubectl apply -f test/BadPod.yaml
-          
+
       - name: Deploy known good pod
         run: |
           sleep 30
+          kubectl get pods -A
           kubectl apply -f test/GoodPod.yaml
 
 
