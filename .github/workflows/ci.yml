@@ -65,8 +65,14 @@ jobs:
           kubectl_version: v1.22.2
           cluster_name: kind
 
+      - name: Install kustomize
+        run: curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+
       - name: Load our docker image into kind cluster
         run: kind load docker-image $(echo "${{ steps.docker_meta.outputs.tags }}" | head -1)
+
+      - name: Set imagetag with kustomize
+        run: kustomize edit set image ghcr.io/chrisns/cosign-keyless-github-admission-webhook=$(echo "${{ steps.docker_meta.outputs.tags }}" | head -1) 
 
       - name: Install cert-manager
         run: |
@@ -78,7 +84,7 @@ jobs:
 
       - name: Install our validating webhook
         run: |
-          kubectl apply -k .
+          kustomize build | kubectl apply -f -
           kubectl wait --for=condition=available --timeout=600s deployment/cosign-keyless-github-admission-webhook -n cosign-keyless-github-admission-webhook
 
       - name: Deploy known good pod
