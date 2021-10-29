@@ -14,6 +14,9 @@ spec:
       labels:
         app: cosign-keyless-github-admission-webhook
     spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
       containers:
       - name: cosign-keyless-github-admission-webhook
         image: ghcr.io/chrisns/cosign-keyless-github-admission-webhook:latest
