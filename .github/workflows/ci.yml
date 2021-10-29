@@ -60,6 +60,8 @@ jobs:
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
           load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Create kind cluster
         uses: helm/kind-action@main
