@@ -22,6 +22,7 @@ spec:
       - name: cosign-keyless-github-admission-webhook
         securityContext:
           allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
         image: ghcr.io/chrisns/cosign-keyless-github-admission-webhook:latest
         imagePullPolicy: IfNotPresent
         ports:
