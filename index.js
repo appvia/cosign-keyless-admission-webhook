@@ -19,7 +19,7 @@ app.post('/', async (req, res) => {
       await images.forEach(async image => {
         const response = child_process.spawnSync("cosign", ["verify", "-output", "json", image], { env: { COSIGN_EXPERIMENTAL: 1, "PATH": "/usr/local/bin" } })
         if (response.status !== 0) {
-          return errors.push(response.stderr.toString())
+          return errors.push(response.stderr)
         }
         var cosign
         try {
