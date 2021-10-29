@@ -33,7 +33,13 @@ spec:
             containerPort: 8443
           - name: http
             containerPort: 8080
-        resources: {}
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 32Mi
         livenessProbe:
           httpGet:
             path: /
