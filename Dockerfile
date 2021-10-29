@@ -1,10 +1,9 @@
-FROM gcr.io/projectsigstore/cosign:v1.2.1 as cosign
+FROM golang:1.17.2-alpine as cosign
+RUN go install github.com/sigstore/cosign/cmd/cosign@v1.2.1
+
 FROM node:16.13.0-alpine
 
-RUN apk --no-cache add ca-certificates \
-  && update-ca-certificates
-
-COPY --from=cosign /bin/cosign /usr/local/bin/cosign
+COPY --from=cosign /go/bin/cosign /usr/local/bin/cosign
 WORKDIR /app
 
 COPY package.json package-lock.json index.js ./
