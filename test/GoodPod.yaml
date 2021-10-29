@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    subject.cosign.sigstore.dev/demo: https://github.com/chrisns/cosign-keyless-demo/.github/workflows/ci.yml@refs/heads/main
+    subject.cosign.sigstore.dev/demoagain: https://github.com/chrisns/cosign-keyless-demo/.github/workflows/ci.yml@refs/heads/main
+  name: goodpod
+spec:
+  containers:
+    - image: ghcr.io/chrisns/cosign-keyless-demo:latest
+      name: demo
+    - image: ghcr.io/chrisns/cosign-keyless-demo:latest
+      name: demoagain
