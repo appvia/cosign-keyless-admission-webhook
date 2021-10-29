@@ -1,6 +1,6 @@
 FROM gcr.io/projectsigstore/cosign:v1.2.1 as cosign
 FROM node:16.13.0-alpine
-COPY --from=cosign /bin/cosign /bin/cosign
+COPY --from=cosign /bin/cosign /usr/local/bin/cosign
 WORKDIR /app
 
 COPY package.json package-lock.json index.js ./
