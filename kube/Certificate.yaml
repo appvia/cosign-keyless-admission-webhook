@@ -1,0 +1,15 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: cosign-keyless-github-admission-webhook
+spec:
+  secretName: cosign-keyless-github-admission-webhook
+  dnsNames:
+  - cosign-keyless-github-admission-webhook.cosign-keyless-github-admission-webhook.svc.cluster.local
+  - cosign-keyless-github-admission-webhook.cosign-keyless-github-admission-webhook.svc
+  - cosign-keyless-github-admission-webhook.cosign-keyless-github-admission-webhook
+  - cosign-keyless-github-admission-webhook
+  issuerRef:
+    name: cosign-keyless-github-admission-webhook
+    kind: Issuer
+    group: cert-manager.io

@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - kube/Namespace.yaml
+  - kube/Issuer.yaml
+  - kube/Certificate.yaml
+  - kube/Deployment.yaml
+  - kube/Service.yaml
+  - kube/ValidatingWebhookConfiguration.yaml
+
+
+namespace: cosign-keyless-github-admission-webhook

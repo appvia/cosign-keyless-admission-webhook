@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cosign-keyless-github-admission-webhook
+spec:
+  selector:
+    app: cosign-keyless-github-admission-webhook
+  ports:
+  - port: 443
+    targetPort: https

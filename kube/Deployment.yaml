@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cosign-keyless-github-admission-webhook
+  labels:
+    app: cosign-keyless-github-admission-webhook
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cosign-keyless-github-admission-webhook
+  template:
+    metadata:
+      labels:
+        app: cosign-keyless-github-admission-webhook
+    spec:
+      containers:
+      - name: cosign-keyless-github-admission-webhook
+        image: ghcr.io/chrisns/cosign-keyless-github-admission-webhook:latest
+        ports:
+          - name: https
+            containerPort: 8443
+          - name: http
+            containerPort: 8080
+        resources: {}
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /
+            port: http
+        env:
+          - name: KEY
+            valueFrom:
+              secretKeyRef:
+                name: cosign-keyless-github-admission-webhook
+                key: tls.key
+          - name: CRT
+            valueFrom:
+              secretKeyRef:
+                name: cosign-keyless-github-admission-webhook
+                key: tls.crt
