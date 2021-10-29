@@ -63,20 +63,30 @@ jobs:
         uses: helm/kind-action@main
         with: 
           kubectl_version: v1.22.2
+          cluster_name: kind
 
-      - run: kubectl version
-      - run: |
+      - name: Load our docker image into kind cluster
+        run: kind load docker-image ${{ steps.docker_meta.outputs.tags }}
+
+      - name: Install cert-manager
+        run: |
           kubectl apply -f https://github.com/jetstack/cert-manager/releases/latest/download/cert-manager.yaml
-          kubectl wait --for=condition=available --timeout=600s deployment/cert-manager -n cert-manager
-          kubectl wait --for=condition=available --timeout=600s deployment/cert-manager-cainjector -n cert-manager
+          kubectl wait --for=condition=available --timeout=600s  -n cert-manager \
+            deployment/cert-manager \
+            deployment/cert-manager-cainjector
 
-      - run: kind load docker-image ${{ steps.docker_meta.outputs.tags }}
-
-      - run: |
+      - name: Install our validating webhook
+        run: |
           kubectl apply -k .
           kubectl wait --for=condition=available --timeout=600s deployment/cosign-keyless-github-admission-webhook -n cosign-keyless-github-admission-webhook
 
-      - run: |
+      - name: Deploy known good pod
+        run: |
+          kubectl apply -f test/GoodPod.yaml
+
+      - name: Deploy known bad pod
+        run: |
+          kubectl apply -f test/BadPod.yaml
 
 
 
