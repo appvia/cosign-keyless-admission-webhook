@@ -57,6 +57,14 @@ jobs:
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
 
+      - name: Create kind cluster
+        uses: helm/kind-action@v1.2.0
+        with: 
+          kubectl_version: 1.22.2
+      - run: kubectl version
+      - run: kubectl get pods
+        
+
     outputs:
       tags: ${{ steps.docker_meta.outputs.tags }}
 
