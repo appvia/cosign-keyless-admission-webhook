@@ -67,5 +67,16 @@ const notAllowedTemplate = (uid, reason) => {
 }
 
 app.listen(port, () =>
-  console.log(`Example app listening at :${port}`)
+  console.log(`Listening at :${port}`)
 )
+
+if (process.env["CRT"] && process.env["KEY"]) {
+  const https = require('https')
+  const options = {
+    key: process.env["KEY"],
+    cert: process.env["CRT"]
+  }
+  https.createServer(options, app).listen(8443, () =>
+    console.log(`Listening at :8443`)
+  )
+}
