@@ -59,12 +59,12 @@ jobs:
           labels: ${{ steps.docker_meta.outputs.labels }}
 
       - name: Create kind cluster
-        uses: helm/kind-action@v1.2.0
+        uses: helm/kind-action@main
         with: 
           kubectl_version: v1.22.2
+          cluster_name: kind
 
       - run: kubectl version
-      - run: kubectl get pods
       - run: |
           kubectl apply -f https://github.com/jetstack/cert-manager/releases/latest/download/cert-manager.yaml
           kubectl wait --for=condition=available --timeout=600s deployment/cert-manager -n cert-manager
@@ -75,6 +75,8 @@ jobs:
       - run: |
           kubectl apply -k .
           kubectl wait --for=condition=available --timeout=600s deployment/cosign-keyless-github-admission-webhook -n cosign-keyless-github-admission-webhook
+
+      - run: |
 
 
 
