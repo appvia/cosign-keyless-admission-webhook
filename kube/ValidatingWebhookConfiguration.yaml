@@ -32,4 +32,4 @@ webhooks:
       name: "cosign-keyless-github-admission-webhook"
   admissionReviewVersions: ["v1", "v1beta1"]
   sideEffects: None
-  timeoutSeconds: 5
+  timeoutSeconds: 15
