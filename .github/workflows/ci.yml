@@ -66,7 +66,7 @@ jobs:
           cluster_name: kind
 
       - name: Load our docker image into kind cluster
-        run: kind load docker-image $(echo "${{ steps.docker_meta.outputs.tags }}" | head -1`)
+        run: kind load docker-image $(echo "${{ steps.docker_meta.outputs.tags }}" | head -1)
 
       - name: Install cert-manager
         run: |
@@ -86,7 +86,7 @@ jobs:
 
       - name: Deploy known bad pod
         run: |
-          kubectl apply -f test/BadPod.yaml
+          ! kubectl apply -f test/BadPod.yaml
 
 
 
