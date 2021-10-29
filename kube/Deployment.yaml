@@ -17,6 +17,7 @@ spec:
       containers:
       - name: cosign-keyless-github-admission-webhook
         image: ghcr.io/chrisns/cosign-keyless-github-admission-webhook:latest
+        imagePullPolicy: IfNotPresent
         ports:
           - name: https
             containerPort: 8443
