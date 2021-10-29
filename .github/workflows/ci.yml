@@ -68,11 +68,14 @@ jobs:
       - run: |
           kubectl apply -f https://github.com/jetstack/cert-manager/releases/latest/download/cert-manager.yaml
           kubectl wait --for=condition=available --timeout=600s deployment/cert-manager -n cert-manager
-          kubectl wait --for=condition=available --timeout=600s deployment/cert-manager-ca-injector -n cert-manager
+          kubectl wait --for=condition=available --timeout=600s deployment/cert-manager-cainjector -n cert-manager
+
+      - run: kind load docker-image --name=kind ${{ steps.docker_meta.outputs.tags[0] }}
 
       - run: |
           kubectl apply -k .
           kubectl wait --for=condition=available --timeout=600s deployment/cosign-keyless-github-admission-webhook -n cosign-keyless-github-admission-webhook
+
 
 
     outputs:
