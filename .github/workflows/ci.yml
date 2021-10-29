@@ -61,6 +61,7 @@ jobs:
 
       - name: Create kind cluster
         uses: helm/kind-action@main
+        timeout-minutes: 5
         with: 
           kubectl_version: v1.22.2
           cluster_name: kind
