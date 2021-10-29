@@ -94,8 +94,6 @@ jobs:
 
       - name: Deploy known good pod
         run: |
-          sleep 30
-          kubectl get pods -A
           kubectl apply -f test/GoodPod.yaml
 
 
