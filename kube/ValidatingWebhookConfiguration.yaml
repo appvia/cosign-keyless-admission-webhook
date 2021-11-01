@@ -5,7 +5,7 @@ metadata:
   annotations:
     cert-manager.io/inject-ca-from: cosign-keyless-github-admission-webhook/cosign-keyless-github-admission-webhook
 webhooks:
-- name: "subject.cosign.sigstore"
+- name: "keyless.cosign.sigstore"
   namespaceSelector:
     matchExpressions:
     - key: kubernetes.io/metadata.name

@@ -7,7 +7,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/chrisns/cosign-keyless-github-admission-webhook.svg)](https://github.com/chrisns/cosign-keyless-github-admission-webhook/stargazers)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/chrisns/cosign-keyless-github-admission-webhook/main/LICENSE)
 
-> Proof of concept kubernetes admission webhook that uses `cosign verify` to check the subject of the image matches what you expect
+> Proof of concept kubernetes admission webhook that uses `cosign verify` to check the subject and issuer of the image matches what you expect
 
 ## Installation
 
@@ -20,7 +20,7 @@ kubectl apply -k https://github.com/chrisns/cosign-keyless-github-admission-webh
 
 ## Usage
 
-In the pod spec you set an annotation(s) of `subject.cosign.sigstore.dev/CONTAINER_NAME`<sup>\*</sup> to the subject
+In the pod spec you set an annotation(s) of `subject.cosign.sigstore.dev/CONTAINER_NAME`<sup>\*</sup> to the subject of the certificate and also set the `issuer.cosign.sigstore.dev/CONTAINER_NAME`<sup>\*</sup> to the Issuer.
 
 > \*`CONTAINER_NAME` is the name of the container from your pod specification.
 
@@ -32,7 +32,9 @@ kind: Pod
 metadata:
   annotations:
     subject.cosign.sigstore.dev/demo: https://github.com/chrisns/cosign-keyless-demo/.github/workflows/ci.yml@refs/heads/main
+    issuer.cosign.sigstore.dev/demo: https://token.actions.githubusercontent.com
     subject.cosign.sigstore.dev/demoagain: https://github.com/chrisns/cosign-keyless-demo/.github/workflows/ci.yml@refs/heads/main
+    issuer.cosign.sigstore.dev/demoagain: https://token.actions.githubusercontent.com
   name: cosign-keyless-demo
 spec:
   containers:
@@ -42,8 +44,6 @@ spec:
       name: demoagain
 ```
 
-## 🚨🚨🚨 WHY YOU SHOULDN'T USE THIS 🚨🚨🚨
-
-- It is only checking the `Subject` that is easily faked, I'm not yet sure what proves the origin of key material to tie it back to the OIDC.
+## 🚨🚨🚨 WHY THIS MAY NOT WORK FOR YOU 🚨🚨🚨
 
 - Won't work, at least out the box with private registries or ones that just require authentication, you'll have to wire the credentials up to deployment's secrets
