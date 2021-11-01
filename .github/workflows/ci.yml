@@ -95,14 +95,14 @@ jobs:
           kustomize build | kubectl apply -f -
           kubectl wait --for=condition=available --timeout=600s deployment/cosign-keyless-github-admission-webhook -n cosign-keyless-github-admission-webhook
 
-      - name: Deploy known bad pod
-        run: |
-          ! kubectl apply -f test/BadPod.yaml
+      - name: Deploy known bad issuer pod
+        run: "! kubectl apply -f test/BadIssuer.yaml"
+
+      - name: Deploy known bad subject pod
+        run: "! kubectl apply -f test/BadSubject.yaml"
 
       - name: Deploy known good pod
-        run: |
-          kubectl apply -f test/GoodPod.yaml
-
+        run: kubectl apply -f test/GoodMixedPod.yaml
 
     outputs:
       tags: ${{ steps.docker_meta.outputs.tags }}

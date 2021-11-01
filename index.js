@@ -9,40 +9,49 @@ app.get('/', (req, res) => res.send('Listening for POSTs'))
 
 app.post('/', async (req, res) => {
   const errors = []
-  await Object.keys(req.body.request.object.metadata.annotations)
-    .filter(k => k.includes("subject.cosign.sigstore.dev"))
-    .forEach(async k => {
-      req.body.request.object.metadata.annotations[k]
-      const subject = req.body.request.object.metadata.annotations[k]
-      const containerName = k.split("/")[1]
-      const images = req.body.request.object.spec.containers.filter(container => container.name == containerName).map(container => container.image)
-      await images.forEach(async image => {
-        const response = child_process.spawnSync("cosign", ["verify", "-output", "json", image], {
-          env: {
-            COSIGN_EXPERIMENTAL: "1",
-            PATH: "/usr/local/bin"
-          }
-        })
-        if (response.status !== 0) {
-          return errors.push(response.stderr)
-        }
-        var cosign
-        try {
-          cosign = JSON.parse(response.stdout.toString())
-        }
-        catch (_) {
-          return errors.push(`Unable to parse response from cosign for ${image}`)
-        }
-        const signs = cosign.filter(sig => sig.critical.type === "cosign container image signature" && sig.optional.Subject === subject)
-        if (signs.length === 0) {
-          return errors.push(`${image} is not signed with the subject ${subject}`)
-        }
-      })
-    })
+  await req.body.request.object.spec.containers.forEach(container => {
+    const image = container.image
+    const subject = req.body.request.object.metadata?.annotations[`subject.cosign.sigstore.dev/${container.name}`]
+    const issuer = req.body.request.object.metadata?.annotations[`issuer.cosign.sigstore.dev/${container.name}`]
+    if (!subject && !issuer) {
+      console.debug(`skipping checking ${image} has neither subject or issuer specified`)
+      return
+    }
+
+    const response = child_process.spawnSync("cosign", ["verify", "--output", "json", image])
+    if (response.status !== 0)
+      return errors.push(response.stderr)
+
+    var cosign
+    try {
+      cosign = JSON.parse(response.stdout.toString())
+    }
+    catch (_) {
+      return errors.push(`Unable to parse response from cosign for ${image}`)
+    }
+    let signs = cosign
+      .filter(sig => sig.critical.type === "cosign container image signature")
+
+    if (subject)
+      signs = signs.filter(sig => sig.optional.Subject === subject)
+
+    if (issuer)
+      signs = signs.filter(sig => sig.optional.Issuer === issuer)
+
+    if (signs.length === 0) {
+      if (subject && issuer)
+        return errors.push(`${image} is not signed with the subject ${subject} AND issuer ${issuer}`)
+      else if (subject)
+        return errors.push(`${image} is not signed with the subject ${subject}`)
+      else if (issuer)
+        return errors.push(`${image} is not signed with the issuer ${issuer}`)
+    }
+  })
   if (errors.length === 0) {
+    console.debug(`allowing ${req.body.request.object.metadata.namespace}/${req.body.request.object.metadata.name}`)
     return res.json(allowedTemplate(req.body.request.uid))
-  }
-  else {
+  } else {
+    console.warn(errors.join(", "))
     return res.json(notAllowedTemplate(req.body.request.uid, errors.join(", ")))
   }
 })

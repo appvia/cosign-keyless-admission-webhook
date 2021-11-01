@@ -4,7 +4,7 @@ metadata:
   name: "keyless-cosign-check"
   annotations:
 webhooks:
-- name: "subject.cosign.sigstore"
+- name: "keyless.cosign.sigstore"
   namespaceSelector:
     matchExpressions:
     - key: kubernetes.io/metadata.name
