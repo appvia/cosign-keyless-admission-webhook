@@ -102,7 +102,7 @@ jobs:
         run: "! kubectl apply -f test/BadSubject.yaml"
 
       - name: Deploy known good pod
-        run: kubectl apply -f test/GoodMixedPod.yaml
+        run: kubectl apply -f test/GoodMixed.yaml
 
     outputs:
       tags: ${{ steps.docker_meta.outputs.tags }}

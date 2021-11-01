@@ -7,7 +7,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/chrisns/cosign-keyless-github-admission-webhook.svg)](https://github.com/chrisns/cosign-keyless-github-admission-webhook/stargazers)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/chrisns/cosign-keyless-github-admission-webhook/main/LICENSE)
 
-> Proof of concept kubernetes admission webhook that uses `cosign verify` to check the subject of the image matches what you expect
+> Proof of concept kubernetes admission webhook that uses `cosign verify` to check the subject and issuer of the image matches what you expect
 
 ## Installation
 
@@ -20,12 +20,7 @@ kubectl apply -k https://github.com/chrisns/cosign-keyless-github-admission-webh
 
 ## Usage
 
-<<<<<<< HEAD
-In the pod spec you set an annotation(s) of `subject.cosign.sigstore.dev/CONTAINER_NAME`<sup>\*</sup> to the subject
-=======
 In the pod spec you set an annotation(s) of `subject.cosign.sigstore.dev/CONTAINER_NAME`<sup>\*</sup> to the subject of the certificate and also set the `issuer.cosign.sigstore.dev/CONTAINER_NAME`<sup>\*</sup> to the Issuer.
-
-> > > > > > > b11ee8a (update docs)
 
 > \*`CONTAINER_NAME` is the name of the container from your pod specification.
 
