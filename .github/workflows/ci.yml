@@ -86,7 +86,7 @@ jobs:
         run: kind load docker-image $(echo "${{ steps.docker_meta.outputs.tags }}" | head -1)
 
       - name: Set imagetag with kustomize
-        run: kustomize edit set image ghcr.io/chrisns/cosign-keyless-github-admission-webhook=$(echo "${{ steps.docker_meta.outputs.tags }}" | head -1) 
+        run: kustomize edit set image ghcr.io/chrisns/cosign-keyless-admission-webhook=$(echo "${{ steps.docker_meta.outputs.tags }}" | head -1) 
 
       - name: Install cert-manager
         run: |
@@ -99,7 +99,7 @@ jobs:
       - name: Install our validating webhook
         run: |
           kustomize build | kubectl apply -f -
-          kubectl wait --for=condition=available --timeout=600s deployment/cosign-keyless-github-admission-webhook -n cosign-keyless-github-admission-webhook
+          kubectl wait --for=condition=available --timeout=600s deployment/cosign-keyless-admission-webhook -n cosign-keyless-admission-webhook
 
       - name: Deploy known bad issuer pod
         run: "! kubectl apply -f test/BadIssuer.yaml"

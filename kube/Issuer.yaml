@@ -1,6 +1,6 @@
 apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
-  name: cosign-keyless-github-admission-webhook
+  name: cosign-keyless-admission-webhook
 spec:
   selfSigned: {}

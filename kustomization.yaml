@@ -10,4 +10,4 @@ resources:
   - kube/ValidatingWebhookConfiguration.yaml
 
 
-namespace: cosign-keyless-github-admission-webhook
+namespace: cosign-keyless-admission-webhook

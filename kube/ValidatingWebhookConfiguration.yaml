@@ -3,7 +3,7 @@ kind: ValidatingWebhookConfiguration
 metadata:
   name: "keyless-cosign-check"
   annotations:
-    cert-manager.io/inject-ca-from: cosign-keyless-github-admission-webhook/cosign-keyless-github-admission-webhook
+    cert-manager.io/inject-ca-from: cosign-keyless-admission-webhook/cosign-keyless-admission-webhook
 webhooks:
 - name: "keyless.cosign.sigstore"
   namespaceSelector:
@@ -15,7 +15,7 @@ webhooks:
       - kube-public
       - hnc-system
       - kube-node-lease
-      - cosign-keyless-github-admission-webhook
+      - cosign-keyless-admission-webhook
       - cert-manager
   rules:
   - apiGroups:   [""]
@@ -25,8 +25,8 @@ webhooks:
     scope:       "Namespaced"
   clientConfig:
     service:
-      namespace: "cosign-keyless-github-admission-webhook"
-      name: "cosign-keyless-github-admission-webhook"
+      namespace: "cosign-keyless-admission-webhook"
+      name: "cosign-keyless-admission-webhook"
   admissionReviewVersions: ["v1", "v1beta1"]
   sideEffects: None
   timeoutSeconds: 15

@@ -14,7 +14,7 @@ webhooks:
       - kube-public
       - hnc-system
       - kube-node-lease
-      - cosign-keyless-github-admission-webhook
+      - cosign-keyless-admission-webhook
       - cert-manager
   rules:
   - apiGroups:   [""]

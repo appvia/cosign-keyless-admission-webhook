@@ -1,32 +1,32 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cosign-keyless-github-admission-webhook
+  name: cosign-keyless-admission-webhook
   labels:
-    app: cosign-keyless-github-admission-webhook
+    app: cosign-keyless-admission-webhook
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: cosign-keyless-github-admission-webhook
+      app: cosign-keyless-admission-webhook
   template:
     metadata:
       labels:
-        app: cosign-keyless-github-admission-webhook
+        app: cosign-keyless-admission-webhook
     spec:
       automountServiceAccountToken: false
       securityContext:
         runAsUser: 10000
         runAsGroup: 10000
       containers:
-      - name: cosign-keyless-github-admission-webhook
+      - name: cosign-keyless-admission-webhook
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
           capabilities:
             drop:
               - ALL
-        image: ghcr.io/chrisns/cosign-keyless-github-admission-webhook:latest
+        image: ghcr.io/chrisns/cosign-keyless-admission-webhook:latest
         imagePullPolicy: IfNotPresent
         ports:
           - name: https
@@ -52,10 +52,10 @@ spec:
           - name: KEY
             valueFrom:
               secretKeyRef:
-                name: cosign-keyless-github-admission-webhook
+                name: cosign-keyless-admission-webhook
                 key: tls.key
           - name: CRT
             valueFrom:
               secretKeyRef:
-                name: cosign-keyless-github-admission-webhook
+                name: cosign-keyless-admission-webhook
                 key: tls.crt
