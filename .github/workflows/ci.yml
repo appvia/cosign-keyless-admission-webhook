@@ -3,8 +3,13 @@ name: Build
 on:
   push:
     branches:
-    - main
+      - 'main'
+    tags:
+      - 'v*'
   pull_request:
+    branches:
+      - 'main'
+
 
 jobs:
   build:
@@ -26,14 +31,14 @@ jobs:
       - uses: actions/checkout@v2.3.5
 
       - name: Login to dockerhub
-        if: github.ref == 'refs/heads/main'
+        if: github.event_name != 'pull_request'
         uses: docker/login-action@v1.10.0
         with:
           username: chrisns
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Login to GitHub
-        if: github.ref == 'refs/heads/main'
+        if: github.event_name != 'pull_request'
         uses: docker/login-action@v1.10.0
         with:
           registry: ghcr.io
@@ -51,6 +56,8 @@ jobs:
           tags: |
             type=sha,format=long
             type=edge,branch=$repo.default_branch
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -66,7 +73,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Create kind cluster
-        uses: helm/kind-action@main
+        uses: helm/kind-action@2a525709fd0874b75d7ae842d257981b0e0f557d
         timeout-minutes: 5
         with: 
           kubectl_version: v1.22.2
@@ -104,7 +111,7 @@ jobs:
         run: kubectl apply -f test/GoodMixed.yaml
 
       - name: push
-        if: github.ref == 'refs/heads/main'
+        if: github.event_name != 'pull_request'
         uses: docker/build-push-action@v2.7.0
         with:
           context: .
@@ -120,7 +127,7 @@ jobs:
   sign:
     needs: build
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: github.event_name != 'pull_request'
     permissions:
       actions: none
       checks: none
