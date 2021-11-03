@@ -18,7 +18,7 @@ app.post('/', async (req, res) => {
       return
     }
 
-    const response = child_process.spawnSync("cosign", ["verify", "--output", "json", image])
+    const response = child_process.spawnSync("cosign", ["verify", "--k8s-keychain", "--output", "json", image])
     if (response.status !== 0)
       return errors.push(response.stderr)
 
