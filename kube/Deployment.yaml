@@ -26,7 +26,7 @@ spec:
           capabilities:
             drop:
               - ALL
-        image: ghcr.io/chrisns/cosign-keyless-admission-webhook:latest
+        image: ghcr.io/appvia/cosign-keyless-admission-webhook:latest
         imagePullPolicy: IfNotPresent
         ports:
           - name: https
