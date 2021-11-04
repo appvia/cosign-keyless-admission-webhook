@@ -30,13 +30,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2.4.0
 
-      - name: Login to dockerhub
-        if: github.event_name != 'pull_request'
-        uses: docker/login-action@v1.10.0
-        with:
-          username: chrisns
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
       - name: Login to GitHub
         if: github.event_name != 'pull_request'
         uses: docker/login-action@v1.10.0
@@ -48,9 +41,7 @@ jobs:
       - id: docker_meta
         uses: docker/metadata-action@v3.6.0
         with:
-          images: |
-            ${{ github.repository }}
-            ghcr.io/${{ github.repository }}
+          images: ghcr.io/${{ github.repository }}
           flavor: |
             latest=true
           tags: |
@@ -86,7 +77,7 @@ jobs:
         run: kind load docker-image $(echo "${{ steps.docker_meta.outputs.tags }}" | head -1)
 
       - name: Set imagetag with kustomize
-        run: kustomize edit set image ghcr.io/chrisns/cosign-keyless-admission-webhook=$(echo "${{ steps.docker_meta.outputs.tags }}" | head -1) 
+        run: kustomize edit set image ghcr.io/appvia/cosign-keyless-admission-webhook=$(echo "${{ steps.docker_meta.outputs.tags }}" | head -1) 
 
       - name: Install cert-manager
         run: |
@@ -142,12 +133,6 @@ jobs:
       id-token: write
 
     steps:
-      - name: Login to dockerhub
-        uses: docker/login-action@v1.10.0
-        with:
-          username: chrisns
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
       - name: Login to GitHub
         uses: docker/login-action@v1.10.0
         with:
