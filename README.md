@@ -1,11 +1,11 @@
 # Cosign keyless Kubernetes admission webhook
 
-[![Build](https://github.com/chrisns/cosign-keyless-admission-webhook/actions/workflows/ci.yml/badge.svg)](https://github.com/chrisns/cosign-keyless-admission-webhook/actions/workflows/ci.yml)
-[![Security Scanning](https://github.com/chrisns/cosign-keyless-admission-webhook/actions/workflows/security.yml/badge.svg)](https://github.com/chrisns/cosign-keyless-admission-webhook/actions/workflows/security.yml)
-[![GitHub issues](https://img.shields.io/github/issues/chrisns/cosign-keyless-admission-webhook.svg)](https://github.com/chrisns/cosign-keyless-admission-webhook/issues)
-[![GitHub forks](https://img.shields.io/github/forks/chrisns/cosign-keyless-admission-webhook.svg)](https://github.com/chrisns/cosign-keyless-admission-webhook/network)
-[![GitHub stars](https://img.shields.io/github/stars/chrisns/cosign-keyless-admission-webhook.svg)](https://github.com/chrisns/cosign-keyless-admission-webhook/stargazers)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/chrisns/cosign-keyless-admission-webhook/main/LICENSE)
+[![Build](https://github.com/appvia/cosign-keyless-admission-webhook/actions/workflows/ci.yml/badge.svg)](https://github.com/appvia/cosign-keyless-admission-webhook/actions/workflows/ci.yml)
+[![Security Scanning](https://github.com/appvia/cosign-keyless-admission-webhook/actions/workflows/security.yml/badge.svg)](https://github.com/appvia/cosign-keyless-admission-webhook/actions/workflows/security.yml)
+[![GitHub issues](https://img.shields.io/github/issues/appvia/cosign-keyless-admission-webhook.svg)](https://github.com/appvia/cosign-keyless-admission-webhook/issues)
+[![GitHub forks](https://img.shields.io/github/forks/appvia/cosign-keyless-admission-webhook.svg)](https://github.com/appvia/cosign-keyless-admission-webhook/network)
+[![GitHub stars](https://img.shields.io/github/stars/appvia/cosign-keyless-admission-webhook.svg)](https://github.com/appvia/cosign-keyless-admission-webhook/stargazers)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/appvia/cosign-keyless-admission-webhook/main/LICENSE)
 
 > Kubernetes admission webhook that uses `cosign verify` to check the subject and issuer of the image matches what you expect
 
@@ -15,7 +15,7 @@
 # if you don't already have cert-manager
 kubectl apply -f https://github.com/jetstack/cert-manager/releases/latest/download/cert-manager.yaml
 
-kubectl apply -k https://github.com/chrisns/cosign-keyless-admission-webhook
+kubectl apply -k https://github.com/appvia/cosign-keyless-admission-webhook
 ```
 
 ## Usage
