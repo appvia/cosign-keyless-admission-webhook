@@ -1,7 +1,7 @@
 FROM golang:1.17.3-alpine as cosign
 RUN go install github.com/sigstore/cosign/cmd/cosign@v1.3.0
 
-FROM node:17.0.1-alpine
+FROM node:17.1.0-alpine
 COPY --from=cosign /go/bin/cosign /usr/local/bin/cosign
 WORKDIR /app
 
