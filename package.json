@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/chrisns/cosign-keyless-admission-webhook#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.2"
   },
   "devDependencies": {
     "localtunnel": "^2.0.2"
