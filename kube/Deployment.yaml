@@ -19,43 +19,49 @@ spec:
         runAsUser: 10000
         runAsGroup: 10000
       containers:
-      - name: cosign-keyless-admission-webhook
-        securityContext:
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
-          capabilities:
-            drop:
-              - ALL
-        image: ghcr.io/appvia/cosign-keyless-admission-webhook:latest
-        imagePullPolicy: IfNotPresent
-        ports:
-          - name: https
-            containerPort: 8443
-          - name: http
-            containerPort: 8080
-        resources:
-          limits:
-            cpu: 1000m
-            memory: 128Mi
-          requests:
-            cpu: 100m
-            memory: 32Mi
-        livenessProbe:
-          httpGet:
-            path: /
-            port: http
-        readinessProbe:
-          httpGet:
-            path: /
-            port: http
-        env:
-          - name: KEY
-            valueFrom:
-              secretKeyRef:
-                name: cosign-keyless-admission-webhook
-                key: tls.key
-          - name: CRT
-            valueFrom:
-              secretKeyRef:
-                name: cosign-keyless-admission-webhook
-                key: tls.crt
+        - name: cosign-keyless-admission-webhook
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          image: ghcr.io/appvia/cosign-keyless-admission-webhook:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: https
+              containerPort: 8443
+            - name: http
+              containerPort: 8080
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 32Mi
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          volumeMounts:
+            - mountPath: /.sigstore
+              name: sigstore
+          env:
+            - name: KEY
+              valueFrom:
+                secretKeyRef:
+                  name: cosign-keyless-admission-webhook
+                  key: tls.key
+            - name: CRT
+              valueFrom:
+                secretKeyRef:
+                  name: cosign-keyless-admission-webhook
+                  key: tls.crt
+      volumes:
+        - name: sigstore
+          emptyDir: {}

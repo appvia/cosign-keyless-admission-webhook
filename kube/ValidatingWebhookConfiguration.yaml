@@ -29,4 +29,4 @@ webhooks:
       name: "cosign-keyless-admission-webhook"
   admissionReviewVersions: ["v1", "v1beta1"]
   sideEffects: None
-  timeoutSeconds: 15
+  timeoutSeconds: 30
