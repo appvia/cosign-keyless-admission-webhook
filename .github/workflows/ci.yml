@@ -28,7 +28,7 @@ jobs:
       id-token: none
 
     steps:
-      - uses: actions/checkout@v2.4.0
+      - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2.4.0
 
       - name: Login to GitHub
         if: github.event_name != 'pull_request'
@@ -39,7 +39,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - id: docker_meta
-        uses: docker/metadata-action@v3.6.2
+        uses: docker/metadata-action@e5622373a38e60fb6d795a4421e56882f2d7a681 # renovate: tag=v3.6.2
         with:
           images: ghcr.io/${{ github.repository }}
           flavor: |
@@ -51,10 +51,10 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@94ab11c41e45d028884a99163086648e898eed25 # renovate: tag=v1
 
       - name: build+load
-        uses: docker/build-push-action@v2.7.0
+        uses: docker/build-push-action@a66e35b9cbcf4ad0ea91ffcaf7bbad63ad9e0229 # renovate: tag=v2.7.0
         with:
           context: .
           tags: ${{ steps.docker_meta.outputs.tags }}
@@ -103,7 +103,7 @@ jobs:
 
       - name: push
         if: github.event_name != 'pull_request'
-        uses: docker/build-push-action@v2.7.0
+        uses: docker/build-push-action@a66e35b9cbcf4ad0ea91ffcaf7bbad63ad9e0229 # renovate: tag=v2.7.0
         with:
           context: .
           tags: ${{ steps.docker_meta.outputs.tags }}
@@ -140,7 +140,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: sigstore/cosign-installer@v2.0.0
+      - uses: sigstore/cosign-installer@51f8e5c6fce54e46006ae97d73b2b6315f518752 # renovate: tag=v2.0.0
 
       - name: Sign the images
         run: cosign sign ${TAGS}
