@@ -2,5 +2,7 @@
   "extends": [
     "config:base"
   ],
-  "automerge": true
+  "automerge": true,
+  "platformAutomerge": true,
+  "pinDigests": true
 }
