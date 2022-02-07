@@ -26,4 +26,4 @@ webhooks:
     url: https://cooocoo.loca.lt
   admissionReviewVersions: ["v1", "v1beta1"]
   sideEffects: None
-  timeoutSeconds: 15
+  timeoutSeconds: 30

@@ -1,8 +1,7 @@
-FROM golang:1.17.5-alpine as cosign
-RUN go install github.com/sigstore/cosign/cmd/cosign@v1.3.0
+FROM ghcr.io/sigstore/cosign/cosign:latest as cosign
 
 FROM node:17.2.0-alpine
-COPY --from=cosign /go/bin/cosign /usr/local/bin/cosign
+COPY --from=cosign /ko-app/cosign /usr/local/bin/cosign
 WORKDIR /app
 
 COPY package.json package-lock.json index.js ./
