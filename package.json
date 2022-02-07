@@ -20,6 +20,6 @@
     "express": "^4.17.2"
   },
   "devDependencies": {
-    "localtunnel": "^2.0.2"
+    "localtunnel": "2.0.2"
   }
 }
