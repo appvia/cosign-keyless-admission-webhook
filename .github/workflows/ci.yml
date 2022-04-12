@@ -140,7 +140,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: sigstore/cosign-installer@581838fbedd492d2350a9ecd427a95d6de1e5d01 # tag=v2.1.0
+      - uses: sigstore/cosign-installer@d6a3abf1bdea83574e28d40543793018b6035605 # tag=v2.2.0
 
       - name: Sign the images
         run: cosign sign ${TAGS}
