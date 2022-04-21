@@ -64,7 +64,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Create kind cluster
-        uses: helm/kind-action@4c7909140acfc81a05fc96fed8fea6673ba8ce80
+        uses: helm/kind-action@deab45fc8df9de5090a604e8ec11778eea7170bd
         timeout-minutes: 5
         with: 
           kubectl_version: v1.22.2
