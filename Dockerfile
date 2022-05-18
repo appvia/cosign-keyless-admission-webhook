@@ -1,6 +1,6 @@
 FROM ghcr.io/sigstore/cosign/cosign:latest@sha256:33a6a55d2f1354bc989b791974cf4ee00a900ab9e4e54b393962321758eee3c6 as cosign
 
-FROM node:18.1.0-alpine@sha256:f4d6916c5625853e81994b5cb53ad3eb27e5fec9451c579d298fee0c508fe621
+FROM node:18.2.0-alpine@sha256:5401d45f6ee9bab7d23eb1154100b9cd5109cb1af8d6121284fcfa059f6274d2
 COPY --from=cosign /ko-app/cosign /usr/local/bin/cosign
 WORKDIR /app
 
