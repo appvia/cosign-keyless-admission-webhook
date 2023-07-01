@@ -32,7 +32,7 @@ jobs:
 
       - name: Login to GitHub
         if: github.event_name != 'pull_request'
-        uses: docker/login-action@49ed152c8eca782a232dede0303416e8f356c37b # tag=v2.0.0
+        uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc # v2.2.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -134,7 +134,7 @@ jobs:
 
     steps:
       - name: Login to GitHub
-        uses: docker/login-action@49ed152c8eca782a232dede0303416e8f356c37b # tag=v2.0.0
+        uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc # v2.2.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
